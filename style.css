@@ -8,7 +8,19 @@ img{
     width: 100%;
 
 }
+.postit_new{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 15px;
+    padding-left: 15px;
+    
+}
 
+.menu{
+    display: flex;
+    justify-content: flex-end;
+}
 .general{
     display: flex;
     border: 2px solid black;
@@ -45,3 +57,4 @@ img{
     width: 150px;
     height: 200px;
 }
+
