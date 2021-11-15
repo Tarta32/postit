@@ -40,8 +40,8 @@ class Postit {
         postit.className = "postit_new"
         postit.id = "postit"+this.id
         postit.style.position = "fixed"
-        postit.style.top = this.x + "px"
-        postit.style.left = this.y + "px"
+        postit.style.top = this.y + "px"
+        postit.style.left = this.x + "px"
         postit.style.width = this.largeur + "px"
         postit.style.height = this.hauteur + "px"
         postit.style.backgroundColor = this.couleur
@@ -49,15 +49,66 @@ class Postit {
         let MenuPostit = document.createElement('div')
         postit.appendChild(MenuPostit)
         MenuPostit.className = "menu"
+        let ItemMenu_color = document.createElement('div')
+        MenuPostit.appendChild(ItemMenu_color)
+        ItemMenu_color.className = "fas fa-palette"
+        ItemMenu_color.addEventListener("click", ()=>{
+            if (this.couleur == "hotpink"){
+                this.couleur = "lawngreen"
+            }
+            else if (this.couleur == "lawngreen"){
+                this.couleur = "lightskyblue"
+            }
+            else {
+                this.couleur = "hotpink"
+            }
+            this.affichePostit()
+        })
         let ItemMenu_moove = document.createElement('div')
         MenuPostit.appendChild(ItemMenu_moove)
         ItemMenu_moove.className = "fas fa-arrows-alt"
+        postit.addEventListener("mousedown", (event) => {
+            let pointerX = event.clientX
+            let pointerY = event.clientY
+            let posX = this.x
+            let posY = this.y
+            document.onmousemove = (event) => {
+                this.deplacement(event.clientX-(pointerX-posX),event.clientY-(pointerY-posY))
+                this.affichePostit()
+            }
+        })
+        postit.addEventListener("mouseup", () => {
+            document.onmousemove = () => {
+
+            }
+        })
         let ItemMenu_write = document.createElement('div')
         MenuPostit.appendChild(ItemMenu_write)
         ItemMenu_write.className = "far fa-keyboard"
+        ItemMenu_write.addEventListener("mouseover", ()=> {
+            IdPostit = this.id 
+        })
+        ItemMenu_write.addEventListener("mouseout", ()=>{
+            IdPostit = -1
+        })
         let ItemMenu_size = document.createElement('div')
         MenuPostit.appendChild(ItemMenu_size)
         ItemMenu_size.className = "fas fa-expand-alt"
+        ItemMenu_size.addEventListener("mousedown", (event) => {
+            let pointerX = event.clientX
+            let pointerY = event.clientY
+            let tailleX = this.largeur
+            let tailleY = this.hauteur
+            document.onmousemove = (event) => {
+                this.redimensionnement(event.clientX-pointerX+tailleX,event.clientY-pointerY+tailleY)
+                this.affichePostit()
+            }
+        })
+        ItemMenu_size.addEventListener("mouseup", ()=>{
+            document.onmousemove = ()=> {
+
+            }
+        })
         let ItemMenu_front = document.createElement('div')
         MenuPostit.appendChild(ItemMenu_front)
         ItemMenu_front.className = "fas fa-angle-double-up"
