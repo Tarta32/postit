@@ -19,10 +19,10 @@ document.getElementById("bleu").addEventListener("click",()=>{
  * Supprimer un post-it du tableau
  * @param {number} num  numero du post-it a supprimer
  */
-    function deletChild(num){
-        TablePostit.splice(num, 1) 
+    function delChild(num){
+       // TablePostit.splice(num, 1) 
        
-     //  delete TablePostit[num]
+       delete TablePostit[num]
     }
 
     // "blacklist" de la fonction changerTexte
@@ -86,16 +86,18 @@ function eraseCookie(name) {
 
 
 setInterval(()=>{
-    createCookie("tableau",JSON.stringify(TablePostit),365)
+    createCookie("tableau22",JSON.stringify(TablePostit),365)
     console.log(JSON.stringify(TablePostit))
 },1000) 
 
 
 window.addEventListener('load', ()=>{
-    let monCookie = JSON.parse(readCookie("tableau"))
-    for (let i = 0 ; i < monCookie.length ; i++){
-        TablePostit.push(new Postit(monCookie[i].x, monCookie[i].y, monCookie[i].largeur, monCookie[i].hauteur, monCookie[i].couleur, monCookie[i].texte, TablePostit.length, monCookie[i].zindex))
-        TablePostit[TablePostit.length-1].affichePostit()
+    let monCookie = JSON.parse(readCookie("tableau22"))
+    for (let i=0;i<monCookie.length;i++){
+        if(monCookie !== null){
+            TablePostit.push(new Postit(monCookie[i].x, monCookie[i].y, monCookie[i].largeur, monCookie[i].hauteur, monCookie[i].couleur, monCookie[i].texte, TablePostit.length, monCookie[i].zindex))
+            TablePostit[TablePostit.length-1].affichePostit()
+        }
     }
     
 })
