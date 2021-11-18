@@ -31,6 +31,7 @@ class Postit {
         this.id = id;
         this.zindex = zindex;
     }
+    
     /**
      * Fonction de deplacement du post-it
      * @param {number} x coordonnées horizontales

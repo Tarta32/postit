@@ -20,7 +20,9 @@ document.getElementById("bleu").addEventListener("click",()=>{
  * @param {number} num  numero du post-it a supprimer
  */
     function deletChild(num){
-        TablePostit.splice(num, 1)
+        TablePostit.splice(num, 1) 
+       
+     //  delete TablePostit[num]
     }
 
     // "blacklist" de la fonction changerTexte
@@ -55,15 +57,45 @@ document.body.addEventListener("keydown", (event)=>{
         }
     }
 })
-setInterval(()=>{
-    document.cookie = JSON.stringify(TablePostit)
-    console.log(document.cookie)
-},1000)
 
-function load(){
-    let postittab = JSON.parse(JSON.stringify(TablePostit));
-    let decodedCookie = decodeURIComponent(document.cookie);
+
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
 }
 
 
-document.onload = load()
+setInterval(()=>{
+    createCookie("tableau",JSON.stringify(TablePostit),365)
+    console.log(JSON.stringify(TablePostit))
+},1000) 
+
+
+window.addEventListener('load', ()=>{
+    let monCookie = JSON.parse(readCookie("tableau"))
+    for (let i = 0 ; i < monCookie.length ; i++){
+        TablePostit.push(new Postit(monCookie[i].x, monCookie[i].y, monCookie[i].largeur, monCookie[i].hauteur, monCookie[i].couleur, monCookie[i].texte, TablePostit.length, monCookie[i].zindex))
+        TablePostit[TablePostit.length-1].affichePostit()
+    }
+    
+})
