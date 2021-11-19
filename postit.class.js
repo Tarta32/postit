@@ -82,7 +82,19 @@ class Postit {
         postit.style.width = this.largeur + "px"
         postit.style.height = this.hauteur + "px"
         postit.style.backgroundColor = this.couleur
-        postit.innerHTML = this.texte
+        let texte = postit.querySelector('.divEditable')
+        if(texte!=null){
+            this.changerTexte(texte.innerHTML)
+        }
+        
+        postit.innerHTML = ''
+        
+        //Div editable
+        let divEditable = document.createElement('div')
+        postit.appendChild(divEditable)
+        divEditable.className = "divEditable"
+        divEditable.contentEditable=false
+        divEditable.innerHTML = this.texte
         
         // Menu des post-it
         let MenuPostit = document.createElement('div')
@@ -131,6 +143,16 @@ class Postit {
         ItemMenu_write.className = "far fa-keyboard"
         ItemMenu_write.addEventListener("click", (event)=> {
             IdPostit = this.id 
+            console.log(divEditable.contentEditable)
+            if(divEditable.contentEditable!="false"){
+                
+                divEditable.contentEditable=false
+                this.changerTexte(divEditable.innerHTML)
+            }
+            else{
+               divEditable.contentEditable=true 
+            }
+            
             event.stopPropagation()
         })
         document.body.addEventListener("click", ()=>{   
@@ -190,9 +212,9 @@ class Postit {
         MenuPostit.appendChild(ItemMenu_delet)
         ItemMenu_delet.className = "far fa-trash-alt"
         ItemMenu_delet.addEventListener("click", function(){
-            document.body.removeChild(postit)
             deletChild(this.id)
-        
+            document.body.removeChild(postit)
+            
         })
         postit.appendChild(MenuPostit)
     }
